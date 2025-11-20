@@ -1,7 +1,11 @@
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import Logo from "./Logo";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
+  const { signOutFunc, user } = useAuth();
+  console.log(user);
+
   const links = (
     <>
       <li>
@@ -15,6 +19,12 @@ const Navbar = () => {
       </li>
     </>
   );
+
+  const handleSignOut = () => {
+    signOutFunc()
+      .then((reuslt) => console.log(reuslt))
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -48,9 +58,29 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Button</a>
-      </div>
+      {user ? (
+        <div className="navbar-end flex gap-2">
+          <img
+            width={"50"}
+            referrerPolicy="no-policy"
+            className="rounded-full"
+            src={user?.photoURL}
+            alt=""
+          />
+          <Link onClick={handleSignOut} className="btn">
+            LogOut
+          </Link>
+        </div>
+      ) : (
+        <div className="navbar-end">
+          <Link to={"/login"} className="btn">
+            Login
+          </Link>
+        </div>
+      )}
+      <Link className="btn btn-primary mx-2 text-white" to={"/be-a-rider"}>
+        Be a Rider
+      </Link>
     </div>
   );
 };

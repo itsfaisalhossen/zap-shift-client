@@ -8,11 +8,11 @@ const AuthLayout = () => {
     <div>
       <Container>
         <Logo />
-        <div className="flex flex-col md:flex-row items-center min-h-screen">
+        <div className="flex flex-col md:flex-row">
           <div className="flex-1">
             <Outlet />
           </div>
-          <div className="flex-1 hidde">
+          <div className="flex-1">
             <img src={img} alt="" />
           </div>
         </div>
