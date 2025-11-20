@@ -1,0 +1,35 @@
+import { createBrowserRouter } from "react-router";
+import AppLayout from "../Layouts/AppLayout";
+import Home from "../pages/Home";
+import Coverage from "../pages/Coverage";
+import About from "../pages/About";
+import ServicesUs from "../pages/ServicesUs";
+import AuthLayout from "../pages/AuthLayout";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    hydrateFallbackElement: "Loading....",
+    element: <AppLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      {
+        path: "coverage",
+        element: <Coverage />,
+        loader: () => fetch("/servise-center.json").then((res) => res.json()),
+      },
+      { path: "about-us", element: <About /> },
+      { path: "services-us", element: <ServicesUs /> },
+    ],
+  },
+  {
+    path: "/",
+    element: <AuthLayout />,
+    children: [
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+    ],
+  },
+]);
