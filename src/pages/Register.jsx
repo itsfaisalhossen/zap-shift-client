@@ -2,20 +2,53 @@ import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import { Link } from "react-router";
 import GoogleLogin from "../ui/GoogleLogin";
+import axios from "axios";
 
 const Register = () => {
   const {
+    // watch,
     register,
     handleSubmit,
-    // watch,
     formState: { errors },
   } = useForm();
-  const { registerUser } = useAuth();
+  const { registerUser, updateProfileFunc } = useAuth();
 
   const handleRegister = (data) => {
+    console.log("after register", data.photo[0]);
+    const profileImage = data.photo[0];
+
     registerUser(data?.email, data?.password)
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
+      .then((result) => {
+        console.log(result);
+        // 1. store the image form data
+        const formData = new FormData();
+        formData.append("image", profileImage);
+
+        // 2. Send the photo to store and get the url
+        const image_api_url = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host
+        }`;
+        axios.post(image_api_url, formData).then((res) => {
+          console.log("after image upload", res.data.data.url);
+
+          //  update user profile to firebase
+          const userProfile = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+
+          updateProfileFunc(userProfile)
+            .then(() => {
+              console.log("user profile Updated done");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div>
@@ -25,6 +58,28 @@ const Register = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit(handleRegister)}>
             <fieldset className="fieldset">
+              {/* name */}
+              <label className="label">Name</label>
+              <input
+                type="name"
+                {...register("name", { required: true })}
+                className="input"
+                placeholder="Name"
+              />
+              {errors.name && (
+                <span className="text-red-500">This field is required</span>
+              )}
+              {/* Photo */}
+              <label className="label">Photo</label>
+              <input
+                type="file"
+                className="file-input"
+                {...register("photo", { required: true })}
+              />
+              {errors.photo && (
+                <span className="text-red-500">This field is required</span>
+              )}
+              {/* email */}
               <label className="label">Email</label>
               <input
                 type="email"
@@ -35,6 +90,7 @@ const Register = () => {
               {errors.email && (
                 <span className="text-red-500">This field is required</span>
               )}
+              {/* password */}
               <label className="label">Password</label>
               <input
                 type="password"
