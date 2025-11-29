@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "../ui/GoogleLogin";
 
 const Login = () => {
   const { signInUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log("in the login page", location);
+
   const {
     register,
     handleSubmit,
@@ -14,7 +18,10 @@ const Login = () => {
 
   const handleLogin = (data) => {
     signInUser(data?.email, data?.password)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        navigate(location?.state || "/");
+      })
       .catch((err) => console.log(err));
   };
   return (
@@ -66,7 +73,11 @@ const Login = () => {
               <button className="btn btn-neutral mt-4">Login</button>
               <p className="text-center">
                 New to Zap shift{" "}
-                <Link className="text-blue-400" to="/register">
+                <Link
+                  state={location.state}
+                  className="text-blue-400"
+                  to="/register"
+                >
                   Register
                 </Link>
               </p>

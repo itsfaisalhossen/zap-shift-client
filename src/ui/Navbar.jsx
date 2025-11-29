@@ -15,6 +15,9 @@ const Navbar = () => {
         <NavLink to={"/about-us"}>About Us</NavLink>
       </li>
       <li>
+        <NavLink to={"/send-percel"}>Send Percel</NavLink>
+      </li>
+      <li>
         <NavLink to={"/coverage"}>Coverage</NavLink>
       </li>
     </>
@@ -78,7 +81,7 @@ const Navbar = () => {
           </Link>
         </div>
       )}
-      <Link className="btn btn-primary mx-2 text-white" to={"/be-a-rider"}>
+      <Link to={"/rider"} className="btn btn-primary mx-2 text-white">
         Be a Rider
       </Link>
     </div>

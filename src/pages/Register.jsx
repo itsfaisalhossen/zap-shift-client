@@ -1,10 +1,13 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "../ui/GoogleLogin";
 import axios from "axios";
 
 const Register = () => {
+  const location = useLocation();
+  console.log(location);
+  const navigate = useNavigate();
   const {
     // watch,
     register,
@@ -30,16 +33,15 @@ const Register = () => {
         }`;
         axios.post(image_api_url, formData).then((res) => {
           console.log("after image upload", res.data.data.url);
-
           //  update user profile to firebase
           const userProfile = {
             displayName: data.name,
             photoURL: res.data.data.url,
           };
-
           updateProfileFunc(userProfile)
             .then(() => {
               console.log("user profile Updated done");
+              navigate(location.state || "/");
             })
             .catch((err) => {
               console.log(err);
@@ -123,7 +125,11 @@ const Register = () => {
               <button className="btn btn-neutral mt-4">Register</button>
               <p className="text-center">
                 Al ready have an Account{" "}
-                <Link className="text-blue-400" to="/login">
+                <Link
+                  state={location.state}
+                  className="text-blue-400"
+                  to="/login"
+                >
                   Login
                 </Link>
               </p>

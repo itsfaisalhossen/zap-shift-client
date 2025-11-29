@@ -2,18 +2,19 @@
 import { Navigate, useLocation } from "react-router";
 import useAuth from "../hooks/useAuth";
 
-const privetRoute = ({ children }) => {
+const PrivetRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const loaction = useLocation();
+  console.log("location", loaction);
 
   if (loading) {
     return <>Loading......</>;
   }
 
   if (!user) {
-    return <Navigate to={"/login"} />;
+    return <Navigate state={loaction.pathname} to={"/login"} />;
   }
 
-  return { children };
+  return children;
 };
-export default privetRoute;
+export default PrivetRoute;
