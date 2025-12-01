@@ -53,6 +53,7 @@ const SendParcel = () => {
     }
 
     console.log("cost", cost);
+    data.cost = cost;
 
     Swal.fire({
       title: "Agree with the Cost?",
@@ -142,6 +143,7 @@ const SendParcel = () => {
               <input
                 type="text"
                 {...register("senderName")}
+                readOnly
                 defaultValue={user?.displayName}
                 className="input w-full"
                 placeholder="Sender Name"
@@ -152,6 +154,7 @@ const SendParcel = () => {
               <input
                 type="text"
                 {...register("senderEmail")}
+                readOnly
                 defaultValue={user?.email}
                 className="input w-full"
                 placeholder="Sender Email"
