@@ -12,6 +12,9 @@ import PrivetRoute from "./privetRoute";
 import SendPercel from "../pages/SendPercel";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import MyParcel from "../pages/Dashboard/MyParcel";
+import Payment from "../pages/Dashboard/Payment";
+import PaymentSuccess from "../pages/Dashboard/PaymentSuccess";
+import PaymentCancelled from "../pages/Dashboard/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +68,18 @@ export const router = createBrowserRouter([
       {
         path: "my-parcels",
         element: <MyParcel />,
+      },
+      {
+        path: "payment/:parcelId",
+        element: <Payment />,
+      },
+      {
+        path: "payment-success",
+        element: <PaymentSuccess />,
+      },
+      {
+        path: "payment-cancelled",
+        element: <PaymentCancelled />,
       },
     ],
   },
