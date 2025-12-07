@@ -6,7 +6,7 @@ import { FiEdit } from "react-icons/fi";
 import { FaTrashCan } from "react-icons/fa6";
 import { MdOutlinePreview } from "react-icons/md";
 import Swal from "sweetalert2";
-import { Link } from "react-router";
+// import { Link } from "react-router";
 
 const MyParcel = () => {
   const { user } = useAuth();
@@ -46,6 +46,21 @@ const MyParcel = () => {
     });
   };
 
+  const handlePayment = async (parcel) => {
+    const paymentInfo = {
+      cost: parcel?.cost,
+      parcelId: parcel?._id,
+      senderEmail: parcel?.senderEmail,
+      parcelName: parcel?.parcelName,
+    };
+
+    const res = await axiosSecure.post(
+      "/payment-checkout-session",
+      paymentInfo
+    );
+    window.location.assign(res.data.url);
+  };
+
   return (
     <div>
       <Container>
@@ -71,14 +86,16 @@ const MyParcel = () => {
                   <td>{parcel.cost}</td>
                   <td>
                     {parcel.paymentStatus === "paid" ? (
-                      <span className="bg-green-500">Paid</span>
+                      <span className="bg-green-50 py-2 px-2.5 text-green-600 rounded-xl">
+                        {parcel.paymentStatus}
+                      </span>
                     ) : (
-                      <Link
-                        to={`/dashboard/payment/${parcel?._id}`}
+                      <button
+                        onClick={() => handlePayment(parcel)}
                         className="btn bg-gray-50 text-black btn-sm"
                       >
                         Pay
-                      </Link>
+                      </button>
                     )}
                   </td>
                   <td>{parcel.deliveryStatus}</td>
