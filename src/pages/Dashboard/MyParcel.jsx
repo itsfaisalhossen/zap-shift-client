@@ -51,6 +51,7 @@ const MyParcel = () => {
       cost: parcel?.cost,
       parcelId: parcel?._id,
       senderEmail: parcel?.senderEmail,
+      trackingId: parcel?.trackingId,
       parcelName: parcel?.parcelName,
     };
 

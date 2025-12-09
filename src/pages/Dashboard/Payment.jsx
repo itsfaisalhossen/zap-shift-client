@@ -14,19 +14,24 @@ const Payment = () => {
     },
   });
 
+  console.log(parcel);
+
   const handlePayment = async () => {
     const paymentInfo = {
       cost: parcel?.cost,
       parcelId: parcel?._id,
       senderEmail: parcel?.senderEmail,
       senderName: parcel?.senderName,
-      parcelName: parcel?.parcelName, // IMPORTANT
+      // trackingId: parcel?.trackingId,
+      parcelName: parcel?.parcelName,
     };
 
-    const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
-    console.log(res.data);
-    window.location.href = res.data.url; // redirect user to Stripe
+    console.log(paymentInfo);
   };
+
+  // const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
+  // console.log(res.data);
+  // window.location.href = res.data.url; // redirect user to Stripe
 
   if (isLoading) {
     <p>Loading......</p>;

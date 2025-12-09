@@ -1,5 +1,6 @@
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router";
+import { FaIdCard } from "react-icons/fa";
 
 const DashboardLayout = () => {
   return (
@@ -81,6 +82,17 @@ const DashboardLayout = () => {
                 {/* Home icon */}
                 <MdOutlineDeliveryDining size={20} />
                 <span className="is-drawer-close:hidden">My Parcels</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={"/dashboard/payment-history"}
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Payment History"
+              >
+                {/* Home icon */}
+                <FaIdCard size={20} />
+                <span className="is-drawer-close:hidden">Payment History</span>
               </Link>
             </li>
 
