@@ -1,8 +1,13 @@
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router";
 import { FaIdCard } from "react-icons/fa";
+import { FaMotorcycle, FaUser } from "react-icons/fa6";
+import useRole from "../hooks/useRole";
 
 const DashboardLayout = () => {
+  const { role } = useRole();
+  console.log("in the dashboard layout", role);
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -47,8 +52,6 @@ const DashboardLayout = () => {
           {/* Sidebar content here */}
           <ul className="menu w-full grow">
             {/* Our dashboard links */}
-
-            {/* List item */}
             <li>
               <Link
                 to={"/"}
@@ -72,7 +75,6 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Home</span>
               </Link>
             </li>
-
             <li>
               <Link
                 to={"/dashboard/my-parcels"}
@@ -95,8 +97,6 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Payment History</span>
               </Link>
             </li>
-
-            {/* List item */}
             <li>
               <button
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -121,6 +121,37 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Settings</span>
               </button>
             </li>
+            {role === "admin" && (
+              <>
+                <li>
+                  <Link
+                    to={"/dashboard/approve-rider"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Approve Riders"
+                  >
+                    {/* bike icon */}
+                    <FaMotorcycle size={20} />
+                    <span className="is-drawer-close:hidden">
+                      Approve Rider
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to={"/dashboard/user-management"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="User Management"
+                  >
+                    {/* bike icon */}
+                    <FaUser size={20} />
+                    <span className="is-drawer-close:hidden">
+                      Users Management
+                    </span>
+                  </Link>
+                </li>
+              </>
+            )}
+            {role === "rider" && <></>}
           </ul>
         </div>
       </div>

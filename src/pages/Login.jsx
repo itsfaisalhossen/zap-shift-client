@@ -7,7 +7,7 @@ const Login = () => {
   const { signInUser } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log("in the login page", location);
+  // console.log("in the login page", location);
 
   const {
     register,

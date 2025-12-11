@@ -3,26 +3,27 @@ import useAuth from "../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "../ui/GoogleLogin";
 import axios from "axios";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Register = () => {
-  const location = useLocation();
-  console.log(location);
-  const navigate = useNavigate();
   const {
     // watch,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { registerUser, updateProfileFunc } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const handleRegister = (data) => {
-    console.log("after register", data.photo[0]);
+    // console.log("after register", data.photo[0]);
     const profileImage = data.photo[0];
 
     registerUser(data?.email, data?.password)
       .then((result) => {
-        console.log(result);
+        console.log(result.user);
         // 1. store the image form data
         const formData = new FormData();
         formData.append("image", profileImage);
@@ -32,11 +33,24 @@ const Register = () => {
           import.meta.env.VITE_image_host
         }`;
         axios.post(image_api_url, formData).then((res) => {
-          console.log("after image upload", res.data.data.url);
+          const photoURL = res.data.data.url;
+
+          //  create user in the db
+          const userInfo = {
+            email: data.email,
+            displayName: data.name,
+            photoURL: photoURL,
+          };
+          axiosSecure.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log("User created in the database");
+            }
+          });
+
           //  update user profile to firebase
           const userProfile = {
             displayName: data.name,
-            photoURL: res.data.data.url,
+            photoURL: photoURL,
           };
           updateProfileFunc(userProfile)
             .then(() => {

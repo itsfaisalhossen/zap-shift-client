@@ -16,6 +16,9 @@ import Payment from "../pages/Dashboard/Payment";
 import PaymentSuccess from "../pages/Dashboard/PaymentSuccess";
 import PaymentCancelled from "../pages/Dashboard/PaymentCancelled";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory";
+import ApproveRider from "../pages/Dashboard/ApproveRider";
+import UsersManagement from "../pages/Dashboard/UsersManagement";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +29,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Home /> },
       {
         path: "rider",
+        loader: () => fetch("/servise-center.json").then((res) => res.json()),
         element: (
           <PrivetRoute>
             <Rider />
@@ -85,6 +89,22 @@ export const router = createBrowserRouter([
       {
         path: "payment-history",
         element: <PaymentHistory />,
+      },
+      {
+        path: "approve-rider",
+        element: (
+          <AdminRoute>
+            <ApproveRider />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "user-management",
+        element: (
+          <AdminRoute>
+            <UsersManagement />
+          </AdminRoute>
+        ),
       },
     ],
   },
