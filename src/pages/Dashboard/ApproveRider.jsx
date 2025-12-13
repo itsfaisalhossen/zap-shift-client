@@ -43,7 +43,6 @@ const ApproveRider = () => {
   return (
     <div>
       <h2 className="text-5xl">Riders pending Approval: {riders.length}</h2>
-
       <table className="table">
         {/* head */}
         <thead>
@@ -51,7 +50,8 @@ const ApproveRider = () => {
             <th></th>
             <th>Name</th>
             <th>Email</th>
-            <th>Status</th>
+            <th>Application Status</th>
+            <th>Work Status</th>
             <th>District</th>
             <th>Actions</th>
           </tr>
@@ -73,6 +73,7 @@ const ApproveRider = () => {
                   {rider.status}
                 </p>
               </td>
+              <td>{rider.workStatus}</td>
               <td>{rider.district}</td>
               <td className="flex gap-2">
                 <button

@@ -74,6 +74,7 @@ const MyParcel = () => {
                 <th></th>
                 <th>Name</th>
                 <th>Cost</th>
+                <th>Tracking id</th>
                 <th>Payment</th>
                 <th>Delivery Status</th>
                 <th>Actions</th>
@@ -85,6 +86,7 @@ const MyParcel = () => {
                   <th>{idx + 1}</th>
                   <td>{parcel.parcelName}</td>
                   <td>{parcel.cost}</td>
+                  <td>{parcel.trackingId}</td>
                   <td>
                     {parcel.paymentStatus === "paid" ? (
                       <span className="bg-green-50 py-2 px-2.5 text-green-600 rounded-xl">

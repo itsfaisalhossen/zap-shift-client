@@ -29,10 +29,6 @@ const Payment = () => {
     console.log(paymentInfo);
   };
 
-  // const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
-  // console.log(res.data);
-  // window.location.href = res.data.url; // redirect user to Stripe
-
   if (isLoading) {
     <p>Loading......</p>;
   }
